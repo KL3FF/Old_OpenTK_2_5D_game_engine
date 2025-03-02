@@ -30,3 +30,4 @@
 /home/dominic/Projects/TwoDThreeD/obj/Debug/net9.0/TwoDThreeD.pdb
 /home/dominic/Projects/TwoDThreeD/obj/Debug/net9.0/TwoDThreeD.genruntimeconfig.cache
 /home/dominic/Projects/TwoDThreeD/obj/Debug/net9.0/ref/TwoDThreeD.dll
+/home/dominic/Projects/TwoDThreeD/obj/Debug/net9.0/TwoDThreeD.sourcelink.json
