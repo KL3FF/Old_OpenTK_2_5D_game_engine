@@ -20,8 +20,6 @@ namespace Com.Engine
         private float SPEED = 8f;
         public float SCREENWIDTH;
         public float SCREENHEIGHT;
-        private float SENSITIVITY = 180f;
-
         public Vector3 position;
         // public Vector3 velocity;
 
@@ -30,8 +28,7 @@ namespace Com.Engine
         Vector3 right = Vector3.UnitX;
 
         // view rotations
-        private float pitch;
-        private float yaw = -90.0f;
+
         private bool firstMove = true;
         public Vector2 lastPos;
 
@@ -51,28 +48,6 @@ namespace Com.Engine
 
             return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), SCREENWIDTH / SCREENHEIGHT, 0.1f, 1000.0f);
 
-
-        }
-        private void UpdateVectors()
-        {
-
-            if (pitch > 89.0f)
-            {
-                pitch = 89.0f;
-            }
-            if (pitch < -89.0f)
-            {
-                pitch = -89.0f;
-            }
-
-
-            front.X = MathF.Cos(MathHelper.DegreesToRadians(pitch)) * MathF.Cos(MathHelper.DegreesToRadians(yaw));
-            front.Y = MathF.Sin(MathHelper.DegreesToRadians(pitch));
-            front.Z = MathF.Cos(MathHelper.DegreesToRadians(pitch)) * MathF.Sin(MathHelper.DegreesToRadians(yaw));
-            front = Vector3.Normalize(front);
-
-            right = Vector3.Normalize(Vector3.Cross(front, Vector3.UnitY));
-            up = Vector3.Normalize(Vector3.Cross(right, front));
 
         }
 

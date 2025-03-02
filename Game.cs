@@ -72,7 +72,7 @@ namespace Com.Engine
         VAO vao;
         IBO ibo;
         ShaderProgram shaderProgram;
-        Texture texture;
+        // Texture texture;
 
 
         Camera camera;
@@ -98,6 +98,8 @@ namespace Com.Engine
             Console.WriteLine("Window Loaded!");
             base.OnLoad();
 
+            TextureHandler.Add("test2","../../../Com/Textures/test2.png");
+
             vao = new VAO();
             VBO vbo = new VBO(vertices);
             vao.LinkToVAO(0, 3, vbo);
@@ -106,7 +108,7 @@ namespace Com.Engine
 
             ibo = new IBO(indices);
             shaderProgram = new ShaderProgram("../../../Com/Shaders/Default.vert", "../../../Com/Shaders/Default.frag");
-            texture = new Texture("../../../Com/Textures/test.png");
+            // texture = new Texture("../../../Com/Textures/test2.png");
 
 
             GL.Enable(EnableCap.DepthTest);
@@ -121,8 +123,10 @@ namespace Com.Engine
             base.OnUnload();
             vao.Delete();
             ibo.Delete();
-            texture.Delete();
+            //texture.Delete();
             shaderProgram.Delete();
+            TextureHandler.Clear();
+          
         }
 
         // Wird aufgerufen, wenn sich die Fenstergröße ändert
@@ -147,11 +151,11 @@ namespace Com.Engine
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 
-            shaderProgram.Bind();
+            
             vao.Bind();
             ibo.Bind();
-            texture.Bind();
-
+            shaderProgram.Bind();
+            TextureHandler.Get("test2").Bind();
 
             // Transformationen setzen (Model, View, Projection)
             Matrix4 model = Matrix4.Identity;
@@ -159,7 +163,7 @@ namespace Com.Engine
             Matrix4 projection = camera.GetProjectionMatrix();
 
             model = Matrix4.CreateRotationY(yRot);
-            Matrix4 translation = Matrix4.CreateTranslation(0f, 0f, -1f);
+            Matrix4 translation = Matrix4.CreateTranslation(0.0f, 0.0f, -10.0f);
             model *= translation;
 
 

@@ -19,7 +19,7 @@ namespace Com.Engine
     public class Texture
     {
         public int ID;
-        public Texture(String filePath)
+        public Texture(string filePath)
         {
             ID = GL.GenTexture();
             GL.ActiveTexture(TextureUnit.Texture0); // Aktiviert die Textur-Einheit 0

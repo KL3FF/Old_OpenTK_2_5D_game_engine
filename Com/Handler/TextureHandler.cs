@@ -7,11 +7,11 @@ namespace Com.Engine
     {
         private static Dictionary<string, Texture> textures = new Dictionary<string, Texture>();
 
-        public static void AddTexture(string key, Texture texture)
+        public static void Add(string key, String filepath)
         {
             if (!textures.ContainsKey(key))
             {
-                textures.Add(key, texture);
+                textures.Add(key, new Texture(filepath));
             }
             else
             {
@@ -19,7 +19,7 @@ namespace Com.Engine
             }
         }
 
-        public static Texture GetTexture(string key)
+        public static Texture Get(string key)
         {
             if (textures.ContainsKey(key))
             {
@@ -32,7 +32,7 @@ namespace Com.Engine
             }
         }
 
-        public static void DeleteTexture(string key)
+        public static void Delete(string key)
         {
             if (textures.ContainsKey(key))
             {
