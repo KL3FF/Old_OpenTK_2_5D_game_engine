@@ -30,6 +30,7 @@ namespace Com.Engine
             this.Title = title;
 
             Console.WriteLine("Window created!");
+            
         }
         // Definition der Vertex-Daten für ein einfaches Rechteck (jede Zeile repräsentiert x, y, z)
         // float[] _vertices = {
@@ -71,24 +72,11 @@ namespace Com.Engine
 
         VAO vao;
         IBO ibo;
-        ShaderProgram shaderProgram;
-        // Texture texture;
-
-
         Camera camera;
-
-
-
-        //transomation variables
-        float yRot = 0f;
-
-
-
+      
         // Eigenschaften zur Speicherung der Fensterabmessungen
         private int _width { get; set; }
         private int _height { get; set; }
-
-        // Konstruktor des Spiels, der die Fenstergröße und den Fenstertitel setzt
 
 
         // Diese Methode wird aufgerufen, sobald das Fenster geladen wird (Initialisierung)
@@ -98,7 +86,7 @@ namespace Com.Engine
             Console.WriteLine("Window Loaded!");
             base.OnLoad();
 
-            TextureHandler.Add("test2","../../../Com/Textures/test2.png");
+     
 
             vao = new VAO();
             VBO vbo = new VBO(vertices);
@@ -107,7 +95,10 @@ namespace Com.Engine
             vao.LinkToVAO(1, 2, uvVBO);
 
             ibo = new IBO(indices);
-            shaderProgram = new ShaderProgram("../../../Com/Shaders/Default.vert", "../../../Com/Shaders/Default.frag");
+            // shaderProgram = new ShaderProgram("../../../Com/Shaders/Default.vert", "../../../Com/Shaders/Default.frag");
+
+            ShaderHandler.Add("default","../../../Com/Shaders/Default.vert", "../../../Com/Shaders/Default.frag");
+            TextureHandler.Add("test2","../../../Com/Textures/test2.png");
             // texture = new Texture("../../../Com/Textures/test2.png");
 
 
@@ -124,7 +115,7 @@ namespace Com.Engine
             vao.Delete();
             ibo.Delete();
             //texture.Delete();
-            shaderProgram.Delete();
+            //shaderProgram.Delete();
             TextureHandler.Clear();
           
         }
@@ -154,23 +145,20 @@ namespace Com.Engine
             
             vao.Bind();
             ibo.Bind();
-            shaderProgram.Bind();
+            // shaderProgram.Bind();
+            ShaderHandler.Get("default").Bind();
             TextureHandler.Get("test2").Bind();
 
             // Transformationen setzen (Model, View, Projection)
             Matrix4 model = Matrix4.Identity;
             Matrix4 view = camera.GetViewMatrix();
             Matrix4 projection = camera.GetProjectionMatrix();
-
-            model = Matrix4.CreateRotationY(yRot);
             Matrix4 translation = Matrix4.CreateTranslation(0.0f, 0.0f, -10.0f);
             model *= translation;
 
-
-
-            int modelLocation = GL.GetUniformLocation(shaderProgram.ID, "model");
-            int viewLocation = GL.GetUniformLocation(shaderProgram.ID, "view");
-            int projectionLocation = GL.GetUniformLocation(shaderProgram.ID, "projection");
+            int modelLocation = GL.GetUniformLocation(ShaderHandler.Get("default").ID, "model");
+            int viewLocation = GL.GetUniformLocation(ShaderHandler.Get("default").ID, "view");
+            int projectionLocation = GL.GetUniformLocation(ShaderHandler.Get("default").ID, "projection");
 
             GL.UniformMatrix4(modelLocation, true, ref model);
             GL.UniformMatrix4(viewLocation, true, ref view);

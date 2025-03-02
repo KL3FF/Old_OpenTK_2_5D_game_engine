@@ -7,7 +7,7 @@ namespace Com.Engine
     {
         private static Dictionary<string, Texture> textures = new Dictionary<string, Texture>();
 
-        public static void Add(string key, String filepath)
+        public static void Add(string key, string filepath)
         {
             if (!textures.ContainsKey(key))
             {
@@ -21,15 +21,9 @@ namespace Com.Engine
 
         public static Texture Get(string key)
         {
-            if (textures.ContainsKey(key))
-            {
+         
                 return textures[key];
-            }
-            else
-            {
-                Console.WriteLine($"Texture mit Schlüssel '{key}' nicht gefunden.");
-                return null;
-            }
+          
         }
 
         public static void Delete(string key)

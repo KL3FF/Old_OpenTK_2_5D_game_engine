@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TwoDThreeD")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cae456b2ad9fd8f4ee399167214ae6355c19972d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4028f518108cc780a2c5e4d52f04cae475c7bea6")]
 [assembly: System.Reflection.AssemblyProductAttribute("TwoDThreeD")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TwoDThreeD")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

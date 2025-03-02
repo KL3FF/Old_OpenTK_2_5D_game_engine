@@ -7,11 +7,11 @@ namespace Com.Engine
     {
         private static Dictionary<string, ShaderProgram> ShaderPrograms = new Dictionary<string, ShaderProgram>();
 
-        public static void Add(string key, ShaderProgram ShaderProgram)
+        public static void Add(string key, string vertexShaderFilepath, string fragmentShaderFilepath)
         {
             if (!ShaderPrograms.ContainsKey(key))
             {
-                ShaderPrograms.Add(key, ShaderProgram);
+                ShaderPrograms.Add(key, new ShaderProgram(vertexShaderFilepath, fragmentShaderFilepath));
             }
             else
             {
@@ -21,15 +21,9 @@ namespace Com.Engine
 
         public static ShaderProgram Get(string key)
         {
-            if (ShaderPrograms.ContainsKey(key))
-            {
+         
                 return ShaderPrograms[key];
-            }
-            else
-            {
-                Console.WriteLine($"ShaderProgram mit Schlüssel '{key}' nicht gefunden.");
-                return null;
-            }
+          
         }
 
         public static void Delete(string key)
