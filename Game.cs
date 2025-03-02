@@ -16,7 +16,9 @@ namespace Com.Engine
 
     public class Game1 : GameWindow
     {
-    
+
+
+
         public Game1(int width, int height, string title) : base(GameWindowSettings.Default, NativeWindowSettings.Default)
         {
             this._width = width;
@@ -39,35 +41,10 @@ namespace Com.Engine
 
         List<Vector3> vertices = new List<Vector3>(){
             // vorne
-            new Vector3(-0.5f, 0.5f, 0.5f),
-            new Vector3(0.5f, 0.5f, 0.5f),
-            new Vector3(0.5f, -0.5f, 0.5f),
-            new Vector3(-0.5f, -0.5f, 0.5f),
-            // links
-            new Vector3(0.5f, 0.5f, 0.5f),
-            new Vector3(0.5f, 0.5f, -0.5f),
-            new Vector3(0.5f, -0.5f, -0.5f),
-            new Vector3(0.5f, -0.5f, 0.5f),
-            // hinten
-            new Vector3(0.5f, 0.5f, -0.5f),
-            new Vector3(-0.5f, 0.5f, -0.5f),
-            new Vector3(-0.5f, -0.5f, -0.5f),
-            new Vector3(0.5f, -0.5f, -0.5f),
-            // rechts
-            new Vector3(-0.5f, 0.5f, -0.5f),
-            new Vector3(-0.5f, 0.5f, 0.5f),
-            new Vector3(-0.5f, -0.5f, 0.5f),
-            new Vector3(-0.5f, -0.5f, -0.5f),
-            // oben
-            new Vector3(-0.5f, 0.5f, -0.5f),
-            new Vector3(0.5f, 0.5f, -0.5f),
-            new Vector3(0.5f, 0.5f, 0.5f),
-            new Vector3(-0.5f, 0.5f, 0.5f),
-            // unten
-            new Vector3(-0.5f, -0.5f, 0.5f),
-            new Vector3(0.5f, -0.5f, 0.5f),
-            new Vector3(0.5f, -0.5f, -0.5f),
-            new Vector3(-0.5f, -0.5f, -0.5f)
+            new Vector3(-0.5f, 0.5f, 0.0f),
+            new Vector3(0.5f, 0.5f, 0.0f),
+            new Vector3(0.5f, -0.5f, 0.0f),
+            new Vector3(-0.5f, -0.5f, 0.0f),
         };
 
 
@@ -84,41 +61,11 @@ namespace Com.Engine
             new Vector2(1f, 1f),
             new Vector2(1f, 0f),
             new Vector2(0f, 0f),
-            // rechts
-            new Vector2(0f, 1f),
-            new Vector2(1f, 1f),
-            new Vector2(1f, 0f),
-            new Vector2(0f, 0f),
-            // hinten
-            new Vector2(0f, 1f),
-            new Vector2(1f, 1f),
-            new Vector2(1f, 0f),
-            new Vector2(0f, 0f),
-            // links
-            new Vector2(0f, 1f),
-            new Vector2(1f, 1f),
-            new Vector2(1f, 0f),
-            new Vector2(0f, 0f),
-            // oben
-            new Vector2(0f, 1f),
-            new Vector2(1f, 1f),
-            new Vector2(1f, 0f),
-            new Vector2(0f, 0f),
-            // unten
-            new Vector2(0f, 1f),
-            new Vector2(1f, 1f),
-            new Vector2(1f, 0f),
-            new Vector2(0f, 0f)
         };
 
         // Indizes für die Dreiecke, die das Rechteck bilden (Verwenden von Element-Buffer)
         List<uint> indices = new List<uint>{
-            0,1,2,2,3,0,
-            4,5,6,6,7,4,
-            8,9,10,10,11,8,
-            12,13,14,14,15,12,
-            16,17,18,18,19,16,
-            20,21,22,22,23,20
+            0,1,2,2,3,0
         };
 
 
@@ -147,18 +94,18 @@ namespace Com.Engine
         // Diese Methode wird aufgerufen, sobald das Fenster geladen wird (Initialisierung)
         protected override void OnLoad()
         {
-        
+
             Console.WriteLine("Window Loaded!");
             base.OnLoad();
 
             vao = new VAO();
             VBO vbo = new VBO(vertices);
-            vao.LinkToVAO(0,3,vbo);
+            vao.LinkToVAO(0, 3, vbo);
             VBO uvVBO = new VBO(texCoords);
-            vao.LinkToVAO(1,2,uvVBO);
-            
+            vao.LinkToVAO(1, 2, uvVBO);
+
             ibo = new IBO(indices);
-            shaderProgram = new ShaderProgram("../../../Com/Shaders/Default.vert","../../../Com/Shaders/Default.frag");
+            shaderProgram = new ShaderProgram("../../../Com/Shaders/Default.vert", "../../../Com/Shaders/Default.frag");
             texture = new Texture("../../../Com/Textures/test.png");
 
 
@@ -199,7 +146,7 @@ namespace Com.Engine
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-         
+
             shaderProgram.Bind();
             vao.Bind();
             ibo.Bind();
@@ -212,7 +159,7 @@ namespace Com.Engine
             Matrix4 projection = camera.GetProjectionMatrix();
 
             model = Matrix4.CreateRotationY(yRot);
-            Matrix4 translation = Matrix4.CreateTranslation(0f, 1f, -3f);
+            Matrix4 translation = Matrix4.CreateTranslation(0f, 0f, -1f);
             model *= translation;
 
 
@@ -239,12 +186,37 @@ namespace Com.Engine
         // Wird aufgerufen, um jedes Frame Logik oder Eingaben zu verarbeiten
         protected override void OnUpdateFrame(FrameEventArgs args)
         {
-       
+
+
+
+
             MouseState mouse = MouseState;
             KeyboardState input = KeyboardState;
+           
+
+            if (input.IsKeyDown(Keys.Escape))
+            {
+                Close(); // Beendet das Spiel
+            }
+
+     
+
+            if (KeyboardState.IsKeyPressed(Keys.F11)) 
+            {
+                if ( WindowState == WindowState.Fullscreen ){
+                    WindowState = WindowState.Normal; 
+                }
+                else{
+                    WindowState = WindowState.Fullscreen;
+                }
+            }
+
+
             camera.Update(input, mouse, args);
             base.OnUpdateFrame(args);
         }
+
+
 
 
     }
