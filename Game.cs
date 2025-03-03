@@ -29,7 +29,7 @@ namespace Com.Engine
             int maxTextureSize;
             GL.GetInteger(GetPName.MaxTextureSize, out maxTextureSize);
             Console.WriteLine("Maximale Texturgröße: " + maxTextureSize);
-
+            
 
         }
 
@@ -40,6 +40,7 @@ namespace Com.Engine
         private int _width { get; set; }
         private int _height { get; set; }
 
+ 
 
         // Diese Methode wird aufgerufen, sobald das Fenster geladen wird (Initialisierung)
         protected override void OnLoad()
@@ -50,7 +51,8 @@ namespace Com.Engine
             TexCoordsHandler.Add("defaultTexCoords", new List<Vector2>() { new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(1f, 0f), new Vector2(0f, 0f) });
             IndiceHandler.Add("defaultIndice", new List<uint> { 0, 1, 2, 2, 3, 0 });
 
-
+     
+            VSync = VSyncMode.On;        // VSync aktivieren
 
             VaoHandler.Add("defaultVAO");
             VboHandler.Add("defaultVBO", VerticeHandler.Get("defaultVertices"));
@@ -63,9 +65,7 @@ namespace Com.Engine
             ShaderHandler.Add("default", "../../../Com/Shaders/Default.vert", "../../../Com/Shaders/Default.frag");
             TextureHandler.Add("test2", "../../../Com/Textures/test2.png");
 
-            GL.Enable(EnableCap.DepthTest);
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+
 
             camera = new MainCamera(_width, _height, Vector3.Zero);
         }
@@ -73,6 +73,8 @@ namespace Com.Engine
         // Diese Methode wird aufgerufen, wenn das Fenster geschlossen bzw. entladen wird
         protected override void OnUnload()
         {
+
+         
             base.OnUnload();
             VaoHandler.Clear();
             VboHandler.Clear();
@@ -101,6 +103,11 @@ namespace Com.Engine
         protected override void OnRenderFrame(FrameEventArgs args)
         {
 
+            Console.WriteLine(args.Time);
+
+            GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             
 
             // Binde das VAO und das IBO für beide Modelle
@@ -120,10 +127,11 @@ namespace Com.Engine
 
             ModelHandler.Draw(view, projection, 0.0f, 0.0f, -13.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
             ModelHandler.Draw(view, projection, 0.0f, 0.0f, -10.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
-                 ModelHandler.Draw(view, projection, -0.5f, 0.5f, -9.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
-            ModelHandler.Draw(view, projection, 0.0f, 0.0f, -9.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
-        
-           
+
+            GL.Disable(EnableCap.DepthTest); 
+            ModelHandler.Draw(view, projection,-0.5f, 0.5f, -9.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
+            ModelHandler.Draw(view, projection, -0.0f, 0.0f, -9.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
+             GL.Enable(EnableCap.DepthTest);
             // ModelHandler.LastUnbind();
             VaoHandler.Unbind("defaultVAO");
             IboHandler.Unbind("dafaultIBO");

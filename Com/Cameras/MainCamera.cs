@@ -55,7 +55,7 @@ namespace Com.Engine
         {
             if (input.IsKeyDown(Keys.W))
             {
-                position += front * SPEED * (float)e.Time;
+                position += up * SPEED * (float)e.Time;
             }
             if (input.IsKeyDown(Keys.A))
             {
@@ -63,7 +63,7 @@ namespace Com.Engine
             }
             if (input.IsKeyDown(Keys.S))
             {
-                position -= front * SPEED * (float)e.Time;
+                position -= up * SPEED * (float)e.Time;
             }
             if (input.IsKeyDown(Keys.D))
             {
