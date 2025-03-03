@@ -31,10 +31,12 @@ namespace Com.Engine
 
         public static void Bind(string key)
         {
+            // Unbinde die Textur
             Get(key).Bind();
         }
         public static void Unbind(string key)
         {
+
             Get(key).Unbind();
         }
         public static void Delete(string key)

@@ -17,8 +17,8 @@ namespace Com.Engine
     {
 
         // Statische Variablen zum Speichern des letzten verwendeten Shaders und Texturen
-        private static string lastShader = null;
-        private static string lastTexture = null;
+        private static string lastShader = "";
+        private static string lastTexture = "";
 
 
 
@@ -26,29 +26,34 @@ namespace Com.Engine
         {
 
             // Überprüfen, ob der Shader gewechselt hat
-            if (lastShader != shader)
+            if ((lastShader != shader) || (lastShader == ""))
             {
                 // Binde den neuen Shader
-                ShaderHandler.Unbind(lastShader);
+                if (lastShader != ""){
+                    ShaderHandler.Unbind(lastShader);
+                }
                 ShaderHandler.Bind(shader);
                 lastShader = shader;  // Speichere den aktuellen Shader
             }
-
+         
 
             // Überprüfen, ob die Textur gewechselt hat
-            if (lastTexture != texture)
+            if ((lastTexture != texture) || (lastShader == ""))
             {
                 // Binde die neue Textur
-                TextureHandler.Unbind(lastTexture);
+                if (lastTexture != ""){
+                    TextureHandler.Unbind(lastTexture);
+                }
                 TextureHandler.Bind(texture);
                 lastTexture = texture;  // Speichere die aktuelle Textur
             }
+        
+            // Setze den Uniform-Wert für den Ausschnitt
+            // int texStartLocation = GL.GetUniformLocation(ShaderHandler.Get(shader).ID, "texStart");
+            // int texEndLocation = GL.GetUniformLocation(ShaderHandler.Get(shader).ID, "texEnd");
 
-
-            // Shader binden
-            ShaderHandler.Bind(shader);
-            // Textur binden
-            TextureHandler.Bind(texture);
+            // GL.Uniform2(texStartLocation, texStart);
+            // GL.Uniform2(texEndLocation, texEnd);
 
             // Transformationen für das Modell
             Matrix4 model = Matrix4.Identity;
@@ -70,15 +75,15 @@ namespace Com.Engine
             // Zeichne das Modell
             GL.DrawElements(PrimitiveType.Triangles, IndiceHandler.Get("defaultIndice").Count, DrawElementsType.UnsignedInt, 0);
         }
-        public static void LastUnbind()
-        {
+        public static void LastUnbind(){
             if (lastShader != null)
             {
-                ShaderHandler.Unbind(lastShader);  // Nur unbinden, wenn ein Shader gebunden war
+                ShaderHandler.Unbind(lastShader);
+     
             }
             if (lastTexture != null)
             {
-                TextureHandler.Unbind(lastTexture);  // Nur unbinden, wenn eine Textur gebunden war
+                TextureHandler.Unbind(lastTexture);
             }
         }
 

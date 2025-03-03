@@ -31,7 +31,7 @@ namespace Com.Engine
 
         MainCamera camera;
 
-        // Eigenschaften zur Speicherung der Fensterabmessungen
+        // Eigenschaften zur Speicherung der FensterabmessungenShaderProgram Ge
         private int _width { get; set; }
         private int _height { get; set; }
 
@@ -97,6 +97,7 @@ namespace Com.Engine
             VaoHandler.Bind("defaultVAO");
             IboHandler.Bind("dafaultIBO");
 
+
             // Setzt die Hintergrundfarbe und löscht den Farbpuffer
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -110,8 +111,7 @@ namespace Com.Engine
             ModelHandler.Draw(view, projection, 0.0f, 0.0f, -13.0f, "default", "test2");
             ModelHandler.Draw(view, projection, 0.0f, 0.0f, -10.0f, "default", "test2");
 
-
-            ModelHandler.LastUnbind();
+            // ModelHandler.LastUnbind();
             VaoHandler.Unbind("defaultVAO");
             IboHandler.Unbind("dafaultIBO");
 
