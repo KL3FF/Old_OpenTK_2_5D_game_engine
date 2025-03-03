@@ -22,7 +22,7 @@ namespace Com.Engine
 
 
 
-        public static void Draw(Matrix4 view, Matrix4 projection, float x, float y, float z, string shader, string texture)
+        public static void Draw(Matrix4 view, Matrix4 projection, float x, float y, float z, string shader, string texture, Vector2 texStart, Vector2 texEnd)
         {
 
             // Überprüfen, ob der Shader gewechselt hat
@@ -49,11 +49,11 @@ namespace Com.Engine
             }
         
             // Setze den Uniform-Wert für den Ausschnitt
-            // int texStartLocation = GL.GetUniformLocation(ShaderHandler.Get(shader).ID, "texStart");
-            // int texEndLocation = GL.GetUniformLocation(ShaderHandler.Get(shader).ID, "texEnd");
+            int texStartLocation = GL.GetUniformLocation(ShaderHandler.Get(shader).ID, "texStart");
+            int texEndLocation = GL.GetUniformLocation(ShaderHandler.Get(shader).ID, "texEnd");
 
-            // GL.Uniform2(texStartLocation, texStart);
-            // GL.Uniform2(texEndLocation, texEnd);
+            GL.Uniform2(texStartLocation, texStart);
+            GL.Uniform2(texEndLocation, texEnd);
 
             // Transformationen für das Modell
             Matrix4 model = Matrix4.Identity;

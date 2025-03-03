@@ -26,6 +26,11 @@ namespace Com.Engine
             // Setzt den Fenstertitel
             this.Title = title;
 
+            int maxTextureSize;
+            GL.GetInteger(GetPName.MaxTextureSize, out maxTextureSize);
+            Console.WriteLine("Maximale Texturgröße: " + maxTextureSize);
+
+
         }
 
 
@@ -59,6 +64,9 @@ namespace Com.Engine
             TextureHandler.Add("test2", "../../../Com/Textures/test2.png");
 
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+
             camera = new MainCamera(_width, _height, Vector3.Zero);
         }
 
@@ -93,6 +101,8 @@ namespace Com.Engine
         protected override void OnRenderFrame(FrameEventArgs args)
         {
 
+            
+
             // Binde das VAO und das IBO für beide Modelle
             VaoHandler.Bind("defaultVAO");
             IboHandler.Bind("dafaultIBO");
@@ -107,10 +117,13 @@ namespace Com.Engine
             Matrix4 projection = camera.GetProjectionMatrix();
 
             // Modelle rendern
-            ModelHandler.Draw(view, projection, 0.0f, 0.0f, -9.0f, "default", "test2");
-            ModelHandler.Draw(view, projection, 0.0f, 0.0f, -13.0f, "default", "test2");
-            ModelHandler.Draw(view, projection, 0.0f, 0.0f, -10.0f, "default", "test2");
 
+            ModelHandler.Draw(view, projection, 0.0f, 0.0f, -13.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
+            ModelHandler.Draw(view, projection, 0.0f, 0.0f, -10.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
+                 ModelHandler.Draw(view, projection, -0.5f, 0.5f, -9.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
+            ModelHandler.Draw(view, projection, 0.0f, 0.0f, -9.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
+        
+           
             // ModelHandler.LastUnbind();
             VaoHandler.Unbind("defaultVAO");
             IboHandler.Unbind("dafaultIBO");
