@@ -70,9 +70,9 @@ namespace Com.Engine
         };
 
 
-        VAO vao;
-        IBO ibo;
-        Camera camera;
+
+
+        MainCamera camera;
       
         // Eigenschaften zur Speicherung der Fensterabmessungen
         private int _width { get; set; }
@@ -88,34 +88,30 @@ namespace Com.Engine
 
      
 
-            vao = new VAO();
-            VBO vbo = new VBO(vertices);
-            vao.LinkToVAO(0, 3, vbo);
-            VBO uvVBO = new VBO(texCoords);
-            vao.LinkToVAO(1, 2, uvVBO);
-
-            ibo = new IBO(indices);
-            // shaderProgram = new ShaderProgram("../../../Com/Shaders/Default.vert", "../../../Com/Shaders/Default.frag");
-
+    
+            VaoHandler.Add("defaultVAO");
+            VboHandler.Add("defaultVBO",vertices);
+            VaoHandler.LinkToVAO("defaultVAO",0, 3, VboHandler.Get("defaultVBO"));
+            VboHandler.Add("defaultUVVBO",texCoords);
+            VaoHandler.LinkToVAO("defaultVAO",1, 2, VboHandler.Get("defaultUVVBO"));
+            IboHandler.Add("dafaultIBO",indices);
+         
+      
             ShaderHandler.Add("default","../../../Com/Shaders/Default.vert", "../../../Com/Shaders/Default.frag");
             TextureHandler.Add("test2","../../../Com/Textures/test2.png");
-            // texture = new Texture("../../../Com/Textures/test2.png");
-
 
             GL.Enable(EnableCap.DepthTest);
-
-            camera = new Camera(_width, _height, Vector3.Zero);
+            camera = new MainCamera(_width, _height, Vector3.Zero);
         }
 
         // Diese Methode wird aufgerufen, wenn das Fenster geschlossen bzw. entladen wird
         protected override void OnUnload()
         {
-            Console.WriteLine("Window Unloaded!");
             base.OnUnload();
-            vao.Delete();
-            ibo.Delete();
-            //texture.Delete();
-            //shaderProgram.Delete();
+            VaoHandler.Clear();
+            VboHandler.Clear();
+            IboHandler.Clear();
+            ShaderHandler.Clear();
             TextureHandler.Clear();
           
         }
@@ -143,11 +139,13 @@ namespace Com.Engine
 
 
             
-            vao.Bind();
-            ibo.Bind();
-            // shaderProgram.Bind();
-            ShaderHandler.Get("default").Bind();
-            TextureHandler.Get("test2").Bind();
+            VaoHandler.Bind("defaultVAO");
+            IboHandler.Bind("dafaultIBO");
+            ShaderHandler.Bind("default");
+            TextureHandler.Bind("test2");
+
+
+
 
             // Transformationen setzen (Model, View, Projection)
             Matrix4 model = Matrix4.Identity;
@@ -163,12 +161,16 @@ namespace Com.Engine
             GL.UniformMatrix4(modelLocation, true, ref model);
             GL.UniformMatrix4(viewLocation, true, ref view);
             GL.UniformMatrix4(projectionLocation, true, ref projection);
-
             // Zeichne die Elemente
             GL.DrawElements(PrimitiveType.Triangles, indices.Count, DrawElementsType.UnsignedInt, 0);
 
 
 
+
+            VaoHandler.Unbind("defaultVAO");
+            IboHandler.Unbind("dafaultIBO");
+            ShaderHandler.Unbind("default");
+            TextureHandler.Unbind("test2");
 
             // Tausche die Puffer
             Context.SwapBuffers();
