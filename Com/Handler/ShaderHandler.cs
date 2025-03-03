@@ -13,30 +13,11 @@ namespace Com.Engine
             {
                 ShaderPrograms.Add(key, new ShaderProgram(vertexShaderFilepath, fragmentShaderFilepath));
             }
-            else
-            {
-                Console.WriteLine($"ShaderProgram mit Schlüssel '{key}' existiert bereits.");
-            }
         }
 
         public static ShaderProgram Get(string key)
         {
-         
-                return ShaderPrograms[key];
-          
-        }
-
-        public static void Delete(string key)
-        {
-            if (ShaderPrograms.ContainsKey(key))
-            {
-                ShaderPrograms[key].Delete();
-                ShaderPrograms.Remove(key);
-            }
-            else
-            {
-                Console.WriteLine($"ShaderProgram mit Schlüssel '{key}' nicht gefunden.");
-            }
+            return ShaderPrograms[key];
         }
 
         public static void Clear()
@@ -47,5 +28,20 @@ namespace Com.Engine
             }
             ShaderPrograms.Clear();
         }
+
+        public static void Bind(string key)
+        {
+            Get(key).Bind();
+        }
+        public static void Unbind(string key)
+        {
+            Get(key).Unbind();
+        }
+        public static void Delete(string key)
+        {
+            Get(key).Delete();
+            ShaderPrograms.Remove(key);
+        }
+
     }
 }

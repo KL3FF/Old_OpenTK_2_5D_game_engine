@@ -10,8 +10,6 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System.IO;
 using StbImageSharp;
-using System.Runtime.InteropServices.Swift;
-using Microsoft.VisualBasic;
 
 
 namespace Com.Engine
