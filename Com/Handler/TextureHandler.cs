@@ -9,10 +9,9 @@ namespace Com.Engine
 
         public static void Add(string key, string filepath)
         {
-            if (!textures.ContainsKey(key))
-            {
+       
                 textures.Add(key, new Texture(filepath));
-            }
+          
         }
 
         public static Texture Get(string key)
