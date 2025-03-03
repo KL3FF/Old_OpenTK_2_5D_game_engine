@@ -13,30 +13,11 @@ namespace Com.Engine
             {
                 textures.Add(key, new Texture(filepath));
             }
-            else
-            {
-                Console.WriteLine($"Texture mit Schlüssel '{key}' existiert bereits.");
-            }
         }
 
         public static Texture Get(string key)
         {
-         
-                return textures[key];
-          
-        }
-
-        public static void Delete(string key)
-        {
-            if (textures.ContainsKey(key))
-            {
-                textures[key].Delete();
-                textures.Remove(key);
-            }
-            else
-            {
-                Console.WriteLine($"Texture mit Schlüssel '{key}' nicht gefunden.");
-            }
+            return textures[key];
         }
 
         public static void Clear()
@@ -47,5 +28,24 @@ namespace Com.Engine
             }
             textures.Clear();
         }
+        public static void Bind(string key)
+        {
+            // Unbinde die Textur
+            Get(key).Bind();
+        }
+        public static void Unbind(string key)
+        {
+            // Unbinde die Textur
+            Get(key).Unbind();
+        }
+        public static void Delete(string key)
+        {
+            Get(key).Delete();
+            textures.Remove(key);
+        }
+
+
+
+
     }
 }
