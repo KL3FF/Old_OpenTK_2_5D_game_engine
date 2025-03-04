@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using System.IO;
-using StbImageSharp;
 
 namespace Com.Engine
 {
@@ -30,8 +23,10 @@ namespace Com.Engine
             GL.GetInteger(GetPName.MaxTextureSize, out maxTextureSize);
             Console.WriteLine("Maximale Texturgröße: " + maxTextureSize);
             
-
-        }
+                UpdateFrequency = 0.0;
+                VSync = VSyncMode.Off;
+             
+        } 
 
 
         MainCamera camera;
@@ -52,8 +47,7 @@ namespace Com.Engine
             IndiceHandler.Add("defaultIndice", new List<uint> { 0, 1, 2, 2, 3, 0 });
 
      
-            VSync = VSyncMode.On;        // VSync aktivieren
-
+          
             VaoHandler.Add("defaultVAO");
             VboHandler.Add("defaultVBO", VerticeHandler.Get("defaultVertices"));
             VaoHandler.LinkToVAO("defaultVAO", 0, 3, VboHandler.Get("defaultVBO"));
@@ -102,9 +96,8 @@ namespace Com.Engine
         // Wird für jedes Frame aufgerufen, um die Szene zu rendern
         protected override void OnRenderFrame(FrameEventArgs args)
         {
-
-            Console.WriteLine(args.Time);
-
+  
+          
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
@@ -148,7 +141,6 @@ namespace Com.Engine
         // Wird aufgerufen, um jedes Frame Logik oder Eingaben zu verarbeiten
         protected override void OnUpdateFrame(FrameEventArgs args)
         {
-
 
             MouseState mouse = MouseState;
             KeyboardState input = KeyboardState;

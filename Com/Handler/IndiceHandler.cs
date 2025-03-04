@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using OpenTK.Mathematics;
-
 namespace Com.Engine
 {
     public static class IndiceHandler{
