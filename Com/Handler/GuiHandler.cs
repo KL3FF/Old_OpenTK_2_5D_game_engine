@@ -14,12 +14,12 @@ using StbImageSharp;
 
 namespace Com.Engine
 {
-    public static class InstanceHandler
+    public static class GuiHandler
     {
 
     // Verwende ein Dictionary, um die Instanzen nach ihrer 'depth' zu sortieren
         // Der Wert ist eine Liste, um mehrere Instanzen mit derselben depth zu speichern
-        private static SortedDictionary<float, List<BasicInstance>> instances = new SortedDictionary<float, List<BasicInstance>>();
+        private static SortedDictionary<float, List<BasicGui>> instances = new SortedDictionary<float, List<BasicGui>>();
 
 
         // Alle Instanzen zeichnen
@@ -35,31 +35,32 @@ namespace Com.Engine
         }
 
         // Alle Instanzen zeichnen
-        public static void AllRender(Matrix4 view, Matrix4 projection)
+        public static void AllRender(Matrix4 view, Matrix4 orthoProjection)
         {
             foreach (var instanceList in instances.Values)  // Iteriere durch alle Listen von Instanzen
             {
-                GL.Disable(EnableCap.DepthTest);
+                //GL.Disable(EnableCap.DepthTest);
                 foreach (var instance in instanceList)  // Zeichne jede Instanz
                 {
-                    instance.Draw(view, projection);
+
+                    instance.Draw(view, orthoProjection);
                 }
-                GL.Enable(EnableCap.DepthTest);
+                //GL.Enable(EnableCap.DepthTest);
             }
         }   
         
         // Eine Instanz hinzufügen
-        public static void Add(BasicInstance instance)
+        public static void Add(BasicGui instance)
         {
             if (!instances.ContainsKey(instance.depth))
             {
-                instances[instance.depth] = new List<BasicInstance>();  // Erstelle eine neue Liste für diese depth, falls noch nicht vorhanden
+                instances[instance.depth] = new List<BasicGui>();  // Erstelle eine neue Liste für diese depth, falls noch nicht vorhanden
             }
             instances[instance.depth].Add(instance);  // Füge die Instanz zur Liste hinzu
         }
 
         // Eine Instanz entfernen
-        public static void Remove(BasicInstance instance)
+        public static void Remove(BasicGui instance)
         {
             if (instances.ContainsKey(instance.depth))
             {

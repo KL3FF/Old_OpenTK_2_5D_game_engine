@@ -22,8 +22,8 @@ namespace Com.Engine
            
             using (Game1 game = new Game1(1280, 720, "Hello World"))
             {
-                game.WindowState = WindowState.Fullscreen; 
-
+                game.WindowState = WindowState.Normal; 
+                //game.WindowState = WindowState.Fullscreen; 
         
 
                 game.Run();

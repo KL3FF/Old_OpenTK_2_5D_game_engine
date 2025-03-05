@@ -22,11 +22,11 @@ namespace Com.Engine
             int maxTextureSize;
             GL.GetInteger(GetPName.MaxTextureSize, out maxTextureSize);
             Console.WriteLine("Maximale Texturgröße: " + maxTextureSize);
-            
-                UpdateFrequency = 0.0;
-                VSync = VSyncMode.Off;
-             
-        } 
+
+            UpdateFrequency = 0.0;
+            VSync = VSyncMode.Off;
+
+        }
 
 
         MainCamera camera;
@@ -35,29 +35,39 @@ namespace Com.Engine
         private int _width { get; set; }
         private int _height { get; set; }
 
- 
+
 
         // Diese Methode wird aufgerufen, sobald das Fenster geladen wird (Initialisierung)
         protected override void OnLoad()
         {
+
             base.OnLoad();
+
+            SceneHandler.Set(new TestScene());
+
+
+            GL.Disable(EnableCap.Multisample);
+
 
             VerticeHandler.Add("defaultVertices", new List<Vector3>() { new Vector3(-0.5f, 0.5f, 0.0f), new Vector3(0.5f, 0.5f, 0.0f), new Vector3(0.5f, -0.5f, 0.0f), new Vector3(-0.5f, -0.5f, 0.0f) });
             TexCoordsHandler.Add("defaultTexCoords", new List<Vector2>() { new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(1f, 0f), new Vector2(0f, 0f) });
             IndiceHandler.Add("defaultIndice", new List<uint> { 0, 1, 2, 2, 3, 0 });
 
-     
-          
-            VaoHandler.Add("defaultVAO");
-            VboHandler.Add("defaultVBO", VerticeHandler.Get("defaultVertices"));
-            VaoHandler.LinkToVAO("defaultVAO", 0, 3, VboHandler.Get("defaultVBO"));
-            VboHandler.Add("defaultUVVBO", TexCoordsHandler.Get("defaultTexCoords"));
-            VaoHandler.LinkToVAO("defaultVAO", 1, 2, VboHandler.Get("defaultUVVBO"));
-            IboHandler.Add("dafaultIBO", IndiceHandler.Get("defaultIndice"));
+            VaoHandler.Add("stageVAO");
+            VboHandler.Add("stageVBO", VerticeHandler.Get("defaultVertices"));
+            VaoHandler.LinkToVAO("stageVAO", 0, 3, VboHandler.Get("stageVBO"));
+            VboHandler.Add("stageUVVBO", TexCoordsHandler.Get("defaultTexCoords"));
+            VaoHandler.LinkToVAO("stageVAO", 1, 2, VboHandler.Get("stageUVVBO"));
+            IboHandler.Add("stageIBO", IndiceHandler.Get("defaultIndice"));
 
+    
+            VaoHandler.Add("guiVAO");
+            VboHandler.Add("guiVBO",VerticeHandler.Get("defaultVertices"));
+            VaoHandler.LinkToVAO("guiVAO", 0, 3, VboHandler.Get("stageVBO"));
+            VboHandler.Add("guiUVVBO", TexCoordsHandler.Get("defaultTexCoords"));
+            VaoHandler.LinkToVAO("guiVAO", 1, 2, VboHandler.Get("guiUVVBO"));
+            IboHandler.Add("guiIBO", IndiceHandler.Get("defaultIndice"));
 
-            ShaderHandler.Add("default", "../../../Com/Shaders/Default.vert", "../../../Com/Shaders/Default.frag");
-            TextureHandler.Add("test2", "../../../Com/Textures/test2.png");
 
 
 
@@ -67,8 +77,8 @@ namespace Com.Engine
         // Diese Methode wird aufgerufen, wenn das Fenster geschlossen bzw. entladen wird
         protected override void OnUnload()
         {
+        
 
-         
             base.OnUnload();
             VaoHandler.Clear();
             VboHandler.Clear();
@@ -96,38 +106,41 @@ namespace Com.Engine
         // Wird für jedes Frame aufgerufen, um die Szene zu rendern
         protected override void OnRenderFrame(FrameEventArgs args)
         {
-  
-          
+
+
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-            
 
-            // Binde das VAO und das IBO für beide Modelle
-            VaoHandler.Bind("defaultVAO");
-            IboHandler.Bind("dafaultIBO");
+
+
+
 
 
             // Setzt die Hintergrundfarbe und löscht den Farbpuffer
             GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            // Camera
-            Matrix4 view = camera.GetViewMatrix();
-            Matrix4 projection = camera.GetProjectionMatrix();
 
-            // Modelle rendern
+            // Camera 3D
+    
+            VaoHandler.Bind("stageVAO");
+            IboHandler.Bind("stageIBO");
+            InstanceHandler.AllRender(camera.GetViewMatrix(), camera.GetProjectionMatrix());
+            VaoHandler.Unbind("stageVAO");
+            IboHandler.Unbind("stageIBO");
 
-            ModelHandler.Draw(view, projection, 0.0f, 0.0f, -13.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
-            ModelHandler.Draw(view, projection, 0.0f, 0.0f, -10.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
+            VaoHandler.Bind("guiVAO");
+            IboHandler.Bind("guiIBO");
+            GuiHandler.AllRender(camera.GetIdentity(),camera.GetOrthoProjectionMatrix());
+            VaoHandler.Unbind("guiVAO");
+            IboHandler.Unbind("guiIBO");
 
-            GL.Disable(EnableCap.DepthTest); 
-            ModelHandler.Draw(view, projection,-0.5f, 0.5f, -9.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
-            ModelHandler.Draw(view, projection, -0.0f, 0.0f, -9.0f, "default", "test2",  new Vector2(0.0f, 0.0f),new Vector2(1.0f, 1.0f));
-             GL.Enable(EnableCap.DepthTest);
-            // ModelHandler.LastUnbind();
-            VaoHandler.Unbind("defaultVAO");
-            IboHandler.Unbind("dafaultIBO");
+
+
+
+
+
 
             // Tausche die Puffer
             Context.SwapBuffers();
@@ -164,6 +177,9 @@ namespace Com.Engine
                     WindowState = WindowState.Fullscreen;
                 }
             }
+
+            InstanceHandler.AllUpdate(args.Time);
+
 
 
             camera.Update(input, mouse, args);

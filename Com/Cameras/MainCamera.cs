@@ -35,6 +35,10 @@ namespace Com.Engine
         {
             return Matrix4.LookAt(position, position + front, up);
         }
+        public Matrix4 GetIdentity()
+        {
+            return Matrix4.Identity;
+        }
         public Matrix4 GetProjectionMatrix()
         {
 
@@ -43,6 +47,28 @@ namespace Com.Engine
 
         }
 
+        public Matrix4 GetOrthoProjectionMatrix()
+        {
+
+   
+            return Matrix4.CreateOrthographicOffCenter(0.0f, SCREENWIDTH, SCREENHEIGHT, 0.0f, -1.0f, 1.0f); // 2D Projektion
+        }
+        // public static Matrix4 CreateOrthographicOffCenter2(float left, float right, float bottom, float top, float zNear, float zFar)
+        // {
+        //     float m00 = 2.0f / (right - left);
+        //     float m11 = 2.0f / (top - bottom);
+        //     float m22 = -2.0f / (zFar - zNear);
+        //     float m30 = -(right + left) / (right - left);
+        //     float m31 = -(top + bottom) / (top - bottom);
+        //     float m32 = -(zFar + zNear) / (zFar - zNear);
+            
+        //     return new Matrix4(
+        //         m00, 0, 0, m30,
+        //         0, m11, 0, m31,
+        //         0, 0, m22, m32,
+        //         0, 0, 0, 1
+        //     );
+        // }
         public void InputController(KeyboardState input, MouseState mouse, FrameEventArgs e)
         {
             if (input.IsKeyDown(Keys.W))

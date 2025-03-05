@@ -2,13 +2,14 @@ namespace Com.Engine
 {
     public static class SceneHandler
     {
-        public static BasicScenes currentScene = new TitleScenes(); // Startszene
+        public static BasicScene currentScene = new BasicScene(); // Startszene
 
-        public static void Set(BasicScenes newScene)
+        public static void Set(BasicScene newScene)
         {
             Console.WriteLine($"Szene gewechselt zu: {newScene.GetType().Name}");
 
             currentScene = newScene;
+            currentScene.Init();
         }
     }
 }

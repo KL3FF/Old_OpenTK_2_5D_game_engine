@@ -17,7 +17,7 @@ namespace Com.Engine
 {
     
 
-    public abstract class BasicInstance
+    public abstract class BasicGui
     {
 
 
@@ -25,7 +25,7 @@ namespace Com.Engine
 
      
 
-        public abstract void Draw(Matrix4 view, Matrix4 projection);
+        public abstract void Draw(Matrix4 view, Matrix4 orthoProjection);
         
         public abstract void Step(double dt);
     }

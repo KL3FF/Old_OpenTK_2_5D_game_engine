@@ -7,6 +7,7 @@ namespace Com.Engine
 
     public class Texture
     {
+        
         public int ID;
         public Texture(string filePath)
         {

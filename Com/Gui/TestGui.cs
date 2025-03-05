@@ -15,14 +15,14 @@ using System.IO.Compression;
 namespace Com.Engine
 {
 
-    class TestInstance : BasicInstance
+    class TestGui : BasicGui
     {
 
         public float x = 0;
         public float y = 0;
 
 
-        public TestInstance(float x,float y, float depth)
+        public TestGui(float x,float y, float depth)
         {
             this.x = x;
             this.y = y;
@@ -30,9 +30,10 @@ namespace Com.Engine
         }
         
 
-        public override void Draw(Matrix4 view, Matrix4 projection)
+        public override void Draw(Matrix4 view, Matrix4 orthoProjection)
         {
-            ModelHandler.Draw(view, projection, x, y, depth, "default", "test2", new Vector2(0.0f, 0.0f), new Vector2(1.0f, 1.0f));
+            ModelHandler.DrawGui(view, orthoProjection, 0.0f, 0.0f, 200.0f,200.0f, "default", "test2", new Vector2(0.0f, 0.0f), new Vector2(1.0f, 1.0f));
+           
         }
 
         public override void Step(double dt)
