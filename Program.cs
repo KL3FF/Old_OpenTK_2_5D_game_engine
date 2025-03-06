@@ -20,12 +20,8 @@ namespace Com.Engine
         {
             
            
-            using (Game1 game = new Game1(1280, 720, "Hello World"))
+            using (Game1 game = new Game1())
             {
-                game.WindowState = WindowState.Normal; 
-                //game.WindowState = WindowState.Fullscreen; 
-        
-
                 game.Run();
             }
 

@@ -89,7 +89,7 @@ namespace Com.Engine
                     TextureHandler.Unbind(lastTexture);
                 }
                 TextureHandler.Bind(texture);
-                lastTexture = texture;  // Speichere die aktuelle Textur
+
             }
 
             // Setze den Uniform-Wert für den Ausschnitt

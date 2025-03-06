@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
@@ -9,31 +10,27 @@ namespace Com.Engine
 
     public class Game1 : GameWindow
     {
-        public Game1(int width, int height, string title) : base(GameWindowSettings.Default, NativeWindowSettings.Default)
+        public Game1() : base(GameWindowSettings.Default, NativeWindowSettings.Default)
         {
-            this._width = width;
-            this._height = height;
+ 
 
             // Zentriert das Fenster basierend auf der angegebenen Breite und Höhe
-            this.CenterWindow(new Vector2i(this._width, this._height));
+ 
             // Setzt den Fenstertitel
-            this.Title = title;
+            this.Title = "title";
 
-            int maxTextureSize;
-            GL.GetInteger(GetPName.MaxTextureSize, out maxTextureSize);
-            Console.WriteLine("Maximale Texturgröße: " + maxTextureSize);
+            // int maxTextureSize;
+            // GL.GetInteger(GetPName.MaxTextureSize, out maxTextureSize);
+            // Console.WriteLine("Maximale Texturgröße: " + maxTextureSize);
 
-            UpdateFrequency = 0.0;
-            VSync = VSyncMode.Off;
-
+             //this.CenterWindow(new Vector2i(SettingsHandler.Width, SettingsHandler.Height));
+    
+            SettingsHandler.LoadSettings(this);
+            SettingsHandler.SetFPS(this,0);
         }
 
 
         MainCamera camera;
-
-        // Eigenschaften zur Speicherung der FensterabmessungenShaderProgram Ge
-        private int _width { get; set; }
-        private int _height { get; set; }
 
 
 
@@ -42,6 +39,7 @@ namespace Com.Engine
         {
 
             base.OnLoad();
+
 
             SceneHandler.Set(new TestScene());
 
@@ -71,7 +69,7 @@ namespace Com.Engine
 
 
 
-            camera = new MainCamera(_width, _height, Vector3.Zero);
+            camera = new MainCamera(SettingsHandler.RenderWidth,SettingsHandler.RenderHeight);
         }
 
         // Diese Methode wird aufgerufen, wenn das Fenster geschlossen bzw. entladen wird
@@ -93,14 +91,28 @@ namespace Com.Engine
         // Wird aufgerufen, wenn sich die Fenstergröße ändert
         protected override void OnResize(ResizeEventArgs e)
         {
-            base.OnResize(e);
+            
 
             // Anpassen des Viewports, sodass die Zeichnung der Szene zur neuen Fenstergröße passt
             GL.Viewport(0, 0, e.Width, e.Height);
-            this._width = e.Width;
-            this._height = e.Height;
-            camera.SCREENWIDTH = this._width;
-            camera.SCREENHEIGHT = this._height;
+     
+            SettingsHandler.ViewWidth = e.Width;
+            SettingsHandler.ViewHeight = e.Height;
+         
+
+            if (!IsFullscreen){
+                SettingsHandler.RenderWidth = SettingsHandler.ViewWidth;
+                SettingsHandler.RenderHeight = SettingsHandler.ViewHeight;
+            }
+
+            camera.SCREENWIDTH = SettingsHandler.RenderWidth;
+            camera.SCREENHEIGHT = SettingsHandler.RenderHeight;
+
+
+
+
+            base.OnResize(e);
+            SettingsHandler.SaveSettings();
         }
 
         // Wird für jedes Frame aufgerufen, um die Szene zu rendern
@@ -155,6 +167,10 @@ namespace Com.Engine
         protected override void OnUpdateFrame(FrameEventArgs args)
         {
 
+            Console.Clear();
+            double fps = 1.0 / args.Time; // args.Time gibt die Zeit pro Frame in Sekunden aus
+            Console.WriteLine($"FPS: {fps:F2}"); // FPS mit zwei Nachkommastellen ausgeben
+
             MouseState mouse = MouseState;
             KeyboardState input = KeyboardState;
 
@@ -168,15 +184,23 @@ namespace Com.Engine
 
             if (KeyboardState.IsKeyPressed(Keys.F11))
             {
-                if (WindowState == WindowState.Fullscreen)
-                {
-                    WindowState = WindowState.Normal;
-                }
-                else
-                {
-                    WindowState = WindowState.Fullscreen;
-                }
+                SettingsHandler.Fullscreen(this);
             }
+
+            if (KeyboardState.IsKeyPressed(Keys.F10))
+            {
+                SettingsHandler.Borderless(this);
+            }
+            if (KeyboardState.IsKeyPressed(Keys.F9))
+            {
+                SettingsHandler.Borderless(this);
+            }
+            if (KeyboardState.IsKeyPressed(Keys.F8))
+            {
+                SettingsHandler.VSync(this);
+            }
+        
+            SettingsHandler.PrintSettings();
 
             InstanceHandler.AllUpdate(args.Time);
 
