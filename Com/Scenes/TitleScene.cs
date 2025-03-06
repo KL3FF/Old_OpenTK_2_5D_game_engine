@@ -13,10 +13,12 @@ namespace Com.Engine
             ShaderHandler.Add("gui", "../../../Com/Shaders/gui.vert", "../../../Com/Shaders/gui.frag");
 
 
-            for (int i = 0; i < 5000; i++)
+            for (int i = 0; i < 10000; i++)
             {
-                float a = (((float)i)/20)-2.5f;
+                float a = (((float)i)/20)-5.0f;
                 InstanceHandler.Add(new TestInstance(0.5f+a, -0.5f, -10.0f-a));
+             
+
             }
 
             GuiHandler.Add(new TestGui(0.0f,0.0f,0.0f));

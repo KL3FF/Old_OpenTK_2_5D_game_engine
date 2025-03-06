@@ -26,7 +26,7 @@ namespace Com.Engine
              //this.CenterWindow(new Vector2i(SettingsHandler.Width, SettingsHandler.Height));
     
             SettingsHandler.LoadSettings(this);
-            SettingsHandler.SetFPS(this,0);
+            SettingsHandler.SetFPS(this,60);
         }
 
 

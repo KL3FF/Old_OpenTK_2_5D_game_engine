@@ -17,18 +17,17 @@ namespace Com.Engine
 
     class TestInstance : BasicInstance
     {
-
         public float x = 0;
         public float y = 0;
+        private float speed = 5.0f;
+        private float direction = 1.0f; // 1 = nach oben, -1 = nach unten
 
-
-        public TestInstance(float x,float y, float depth)
+        public TestInstance(float x, float y, float depth)
         {
             this.x = x;
-            this.y = y;
+            this.y = MathHelper.Lerp(-10f, 10f, Random.Shared.NextSingle()); // Random Start Y
             base.depth = depth;
         }
-        
 
         public override void Draw(Matrix4 view, Matrix4 projection)
         {
@@ -37,9 +36,19 @@ namespace Com.Engine
 
         public override void Step(double dt)
         {
+            y += (float)(speed * direction * dt);
 
+            if (y >= 10f)
+            {
+                y = 10f;       // Fix auf 10
+                direction = -1; // Umkehren nach unten
+            }
+
+            if (y <= -10f)
+            {
+                y = -10f;      // Fix auf -10
+                direction = 1; // Umkehren nach oben
+            }
         }
     }
-
-
 }
