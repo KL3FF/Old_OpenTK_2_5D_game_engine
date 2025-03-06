@@ -11,7 +11,6 @@
 // using System.IO;
 // using StbImageSharp;
 
-using OpenTK.Windowing.Common;
 namespace Com.Engine
 {
     class Program

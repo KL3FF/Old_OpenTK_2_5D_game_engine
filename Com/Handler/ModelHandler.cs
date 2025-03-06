@@ -1,7 +1,7 @@
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 
-namespace Com.Engine
+namespace Com.Engine.Library
 {
     public static class ModelHandler
     {
@@ -65,6 +65,7 @@ namespace Com.Engine
 
             // Zeichne das Modell
             GL.DrawElements(PrimitiveType.Triangles, IndiceHandler.Get("defaultIndice").Count, DrawElementsType.UnsignedInt, 0);
+          
         }
 
 

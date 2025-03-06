@@ -1,4 +1,4 @@
-namespace Com.Engine
+namespace Com.Engine.Library
 {
     public static class SceneHandler
     {

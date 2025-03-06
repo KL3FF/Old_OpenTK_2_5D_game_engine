@@ -1,6 +1,6 @@
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
-namespace Com.Engine
+namespace Com.Engine.Library
 {
 
 

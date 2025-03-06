@@ -12,7 +12,7 @@ using System.IO;
 using StbImageSharp;
 using System.IO.Compression;
 
-namespace Com.Engine
+namespace Com.Engine.Library
 {
 
     class TestInstance : BasicInstance

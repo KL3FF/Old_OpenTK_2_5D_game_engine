@@ -12,7 +12,7 @@ using System.IO;
 using StbImageSharp;
 
 
-namespace Com.Engine
+namespace Com.Engine.Library
 {
     public static class GuiHandler
     {

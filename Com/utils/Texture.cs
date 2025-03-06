@@ -1,7 +1,7 @@
 using OpenTK.Graphics.OpenGL;
 using StbImageSharp;
 
-namespace Com.Engine
+namespace Com.Engine.Library
 {
 
 

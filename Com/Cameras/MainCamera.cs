@@ -4,7 +4,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 
 
-namespace Com.Engine
+namespace Com.Engine.Library
 {
     public class MainCamera : BasicCamera
     {

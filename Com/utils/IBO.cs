@@ -1,5 +1,5 @@
 using OpenTK.Graphics.OpenGL4;
-namespace Com.Engine
+namespace Com.Engine.Library
 {
 
 

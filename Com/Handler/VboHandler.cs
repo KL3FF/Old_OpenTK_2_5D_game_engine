@@ -1,5 +1,5 @@
 using OpenTK.Mathematics;
-namespace Com.Engine
+namespace Com.Engine.Library
 {
     public static class VboHandler
     {
