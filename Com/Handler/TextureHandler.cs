@@ -10,10 +10,20 @@ namespace Com.Engine.Library
 
             if (!textures.ContainsKey(key))
             {
-                textures.Add(key, new Texture(filepath));
+                textures.Add(key, new ImgTexture(filepath));
             }
 
         }
+
+        // Für Text-Texturen (neu hinzugefügt)
+        public static void AddTextTexture(string key, string text)
+        {
+            if (!textures.ContainsKey(key))
+            {
+                textures.Add(key, new TextTexture(text));
+            }
+        }
+
 
         public static Texture Get(string key)
         {

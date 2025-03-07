@@ -9,7 +9,7 @@
 // using OpenTK.Windowing.Desktop;
 // using OpenTK.Windowing.GraphicsLibraryFramework;
 // using System.IO;
-// using StbImageSharp;
+
 
 namespace Com.Engine
 {

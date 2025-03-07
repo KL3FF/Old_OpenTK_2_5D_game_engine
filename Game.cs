@@ -27,7 +27,10 @@ namespace Com.Engine
              //this.CenterWindow(new Vector2i(SettingsHandler.Width, SettingsHandler.Height));
     
             SettingsHandler.LoadSettings(this);
-            SettingsHandler.SetFPS(this,60);
+            SettingsHandler.SetFPS(this,0);
+
+
+            GlyphHandler.LoadFnt("../../../Com/Font/Fonttest.json");
         }
 
 
@@ -40,8 +43,7 @@ namespace Com.Engine
         {
 
             base.OnLoad();
-
-
+        
             SceneHandler.Set(new TestScene());
 
 
@@ -77,7 +79,7 @@ namespace Com.Engine
         protected override void OnUnload()
         {
         
-
+       
             base.OnUnload();
             VaoHandler.Clear();
             VboHandler.Clear();
@@ -168,9 +170,9 @@ namespace Com.Engine
         protected override void OnUpdateFrame(FrameEventArgs args)
         {
 
-            Console.Clear();
-            double fps = 1.0 / args.Time; // args.Time gibt die Zeit pro Frame in Sekunden aus
-            Console.WriteLine($"FPS: {fps:F2}"); // FPS mit zwei Nachkommastellen ausgeben
+            // Console.Clear();
+            // double fps = 1.0 / args.Time; // args.Time gibt die Zeit pro Frame in Sekunden aus
+            // Console.WriteLine($"FPS: {fps:F2}"); // FPS mit zwei Nachkommastellen ausgeben
 
             MouseState mouse = MouseState;
             KeyboardState input = KeyboardState;

@@ -1,0 +1,22 @@
+[
+    {
+        "id": 65,
+        "x": 10,
+        "y": 20,
+        "width": 32,
+        "height": 40,
+        "xoffset": 0,
+        "yoffset": 0,
+        "xadvance": 32
+    },
+    {
+        "id": 66,
+        "x": 50,
+        "y": 20,
+        "width": 32,
+        "height": 40,
+        "xoffset": 0,
+        "yoffset": 0,
+        "xadvance": 32
+    }
+]
