@@ -35,14 +35,14 @@ namespace Com.Engine.Library
         }
 
         // Alle Instanzen zeichnen
-        public static void AllRender(Matrix4 view, Matrix4 projection)
+        public static void AllRender(Matrix4 view,  Matrix4 projection)
         {
             foreach (var instanceList in instances.Values)  // Iteriere durch alle Listen von Instanzen
             {
                 GL.Disable(EnableCap.DepthTest);
                 foreach (var instance in instanceList)  // Zeichne jede Instanz
                 {
-                    instance.Draw(view, projection);
+                    instance.Draw(ref view, ref projection);
                 }
                 GL.Enable(EnableCap.DepthTest);
             }

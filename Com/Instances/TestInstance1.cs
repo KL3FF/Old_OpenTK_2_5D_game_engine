@@ -3,12 +3,12 @@ using OpenTK.Mathematics;
 namespace Com.Engine.Library
 {
 
-    class TestInstance : BasicInstance
+    class TestInstance1 : BasicInstance
     {
         public float x = 0;
         public float y = 0;
         private float speed = 2.0f;
-        private float direction = 1.0f; // 1 = nach oben, -1 = nach unten
+        private float direction = 1.0f;
 
         private float angle = 0.0f;
 
@@ -16,7 +16,7 @@ namespace Com.Engine.Library
         public float width = 0.0f;
         public float height = 0.0f;
 
-        public TestInstance(float x, float y, float depth, float width, float height, float angle)
+        public TestInstance1(float x, float y, float depth, float width, float height, float angle)
         {
             this.x = x;
             this.y = y + MathHelper.Lerp(-512f, 512f, Random.Shared.NextSingle()); // Random Start Y
@@ -29,7 +29,7 @@ namespace Com.Engine.Library
 
         public override void Draw(ref Matrix4 view, ref Matrix4 projection)
         {
-            ModelHandler.Draw(ref view, ref projection, x, y, depth, width, height, angle, "default", "test2", new Vector2(0.0f, 0.0f), new Vector2(1.0f, 1.0f));
+            ModelHandler.Draw(ref view, ref projection, x, y, depth, width, height, angle, "default", "test3", new Vector2(0.0f, 0.0f), new Vector2(1.0f, 1.0f));
         }
 
 
@@ -42,16 +42,16 @@ namespace Com.Engine.Library
             }
 
             y += (float)(speed * direction * dt);
-    
-            if (y >= 512f)
+
+            if (y >= 512.0f)
             {
-                y = 512f;       // Fix auf 10
+                y = 512.0f;       // Fix auf 10
                 direction = -1; // Umkehren nach unten
             }
 
-            if (y <= -512f)
+            if (y <= -512.0f)
             {
-                y = -512f;      // Fix auf -10
+                y = -512.0f;      // Fix auf -10
                 direction = 1; // Umkehren nach oben
             }
         }

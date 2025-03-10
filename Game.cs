@@ -13,10 +13,10 @@ namespace Com.Engine
     {
         public Game1() : base(GameWindowSettings.Default, NativeWindowSettings.Default)
         {
- 
+
 
             // Zentriert das Fenster basierend auf der angegebenen Breite und Höhe
- 
+
             // Setzt den Fenstertitel
             this.Title = "title";
 
@@ -24,13 +24,14 @@ namespace Com.Engine
             // GL.GetInteger(GetPName.MaxTextureSize, out maxTextureSize);
             // Console.WriteLine("Maximale Texturgröße: " + maxTextureSize);
 
-             //this.CenterWindow(new Vector2i(SettingsHandler.Width, SettingsHandler.Height));
-    
-            SettingsHandler.LoadSettings(this);
-            SettingsHandler.SetFPS(this,0);
+            //this.CenterWindow(new Vector2i(SettingsHandler.Width, SettingsHandler.Height));
 
+            SettingsHandler.LoadSettings(this);
+            SettingsHandler.SetFPS(this, 0);
+            this.ClientSize = new Vector2i(1920, 1080);
 
             GlyphHandler.LoadFnt("../../../Com/Font/Fonttest.json");
+            
         }
 
 
@@ -43,7 +44,7 @@ namespace Com.Engine
         {
 
             base.OnLoad();
-        
+
             SceneHandler.Set(new TestScene());
 
 
@@ -52,6 +53,8 @@ namespace Com.Engine
 
             VerticeHandler.Add("defaultVertices", new List<Vector3>() { new Vector3(-0.5f, 0.5f, 0.0f), new Vector3(0.5f, 0.5f, 0.0f), new Vector3(0.5f, -0.5f, 0.0f), new Vector3(-0.5f, -0.5f, 0.0f) });
             TexCoordsHandler.Add("defaultTexCoords", new List<Vector2>() { new Vector2(0f, 1f), new Vector2(1f, 1f), new Vector2(1f, 0f), new Vector2(0f, 0f) });
+            TexCoordsHandler.Add("guiTexCoords", new List<Vector2>() { new Vector2(0f, 0f), new Vector2(1f, 0f), new Vector2(1f, 1f), new Vector2(0f, 1f) });
+
             IndiceHandler.Add("defaultIndice", new List<uint> { 0, 1, 2, 2, 3, 0 });
 
             VaoHandler.Add("stageVAO");
@@ -61,25 +64,22 @@ namespace Com.Engine
             VaoHandler.LinkToVAO("stageVAO", 1, 2, VboHandler.Get("stageUVVBO"));
             IboHandler.Add("stageIBO", IndiceHandler.Get("defaultIndice"));
 
-    
+
             VaoHandler.Add("guiVAO");
-            VboHandler.Add("guiVBO",VerticeHandler.Get("defaultVertices"));
+            VboHandler.Add("guiVBO", VerticeHandler.Get("defaultVertices"));
             VaoHandler.LinkToVAO("guiVAO", 0, 3, VboHandler.Get("stageVBO"));
-            VboHandler.Add("guiUVVBO", TexCoordsHandler.Get("defaultTexCoords"));
+            VboHandler.Add("guiUVVBO", TexCoordsHandler.Get("guiTexCoords"));
             VaoHandler.LinkToVAO("guiVAO", 1, 2, VboHandler.Get("guiUVVBO"));
             IboHandler.Add("guiIBO", IndiceHandler.Get("defaultIndice"));
 
-
-
-
-            camera = new MainCamera(SettingsHandler.RenderWidth,SettingsHandler.RenderHeight);
+            camera = new MainCamera(SettingsHandler.RenderWidth, SettingsHandler.RenderHeight);
         }
 
         // Diese Methode wird aufgerufen, wenn das Fenster geschlossen bzw. entladen wird
         protected override void OnUnload()
         {
-        
-       
+
+
             base.OnUnload();
             VaoHandler.Clear();
             VboHandler.Clear();
@@ -94,16 +94,17 @@ namespace Com.Engine
         // Wird aufgerufen, wenn sich die Fenstergröße ändert
         protected override void OnResize(ResizeEventArgs e)
         {
-            
+
 
             // Anpassen des Viewports, sodass die Zeichnung der Szene zur neuen Fenstergröße passt
             GL.Viewport(0, 0, e.Width, e.Height);
-     
+
             SettingsHandler.ViewWidth = e.Width;
             SettingsHandler.ViewHeight = e.Height;
-         
 
-            if (!IsFullscreen){
+
+            if (!IsFullscreen)
+            {
                 SettingsHandler.RenderWidth = SettingsHandler.ViewWidth;
                 SettingsHandler.RenderHeight = SettingsHandler.ViewHeight;
             }
@@ -121,7 +122,7 @@ namespace Com.Engine
         // Wird für jedes Frame aufgerufen, um die Szene zu rendern
         protected override void OnRenderFrame(FrameEventArgs args)
         {
-
+            double deltaStep = args.Time*60;
 
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.Blend);
@@ -138,7 +139,7 @@ namespace Com.Engine
 
 
             // Camera 3D
-    
+
             VaoHandler.Bind("stageVAO");
             IboHandler.Bind("stageIBO");
             InstanceHandler.AllRender(camera.GetViewMatrix(), camera.GetProjectionMatrix());
@@ -147,13 +148,11 @@ namespace Com.Engine
 
             VaoHandler.Bind("guiVAO");
             IboHandler.Bind("guiIBO");
-            GuiHandler.AllRender(camera.GetIdentity(),camera.GetOrthoProjectionMatrix());
+            GuiHandler.AllRender(camera.GetIdentity(), camera.GetOrthoProjectionMatrix());
             VaoHandler.Unbind("guiVAO");
             IboHandler.Unbind("guiIBO");
 
-
-
-
+         
 
 
 
@@ -169,11 +168,12 @@ namespace Com.Engine
         // Wird aufgerufen, um jedes Frame Logik oder Eingaben zu verarbeiten
         protected override void OnUpdateFrame(FrameEventArgs args)
         {
+            double deltaStep = args.Time*60;
 
-            // Console.Clear();
-            // double fps = 1.0 / args.Time; // args.Time gibt die Zeit pro Frame in Sekunden aus
-            // Console.WriteLine($"FPS: {fps:F2}"); // FPS mit zwei Nachkommastellen ausgeben
-
+            Console.Clear();
+            double fps = 1.0 / args.Time; // args.Time gibt die Zeit pro Frame in Sekunden aus
+            Console.WriteLine($"FPS: {fps:F2}"); // FPS mit zwei Nachkommastellen ausgeben
+            Console.WriteLine(deltaStep);
             MouseState mouse = MouseState;
             KeyboardState input = KeyboardState;
 
@@ -202,11 +202,11 @@ namespace Com.Engine
             {
                 SettingsHandler.VSync(this);
             }
-        
+
             SettingsHandler.PrintSettings();
 
-            InstanceHandler.AllUpdate(args.Time);
-
+            InstanceHandler.AllUpdate(deltaStep);
+            GuiHandler.AllUpdate(deltaStep);
 
 
             camera.Update(input, mouse, args);

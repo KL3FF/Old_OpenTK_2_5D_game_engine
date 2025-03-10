@@ -42,7 +42,7 @@ namespace Com.Engine.Library
                 foreach (var instance in instanceList)  // Zeichne jede Instanz
                 {
 
-                    instance.Draw(view, orthoProjection);
+                    instance.Draw(ref view, ref orthoProjection);
                 }
                 //GL.Enable(EnableCap.DepthTest);
             }

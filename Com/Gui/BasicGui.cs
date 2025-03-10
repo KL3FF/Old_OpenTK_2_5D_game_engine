@@ -15,7 +15,7 @@ namespace Com.Engine.Library
 
      
 
-        public abstract void Draw(Matrix4 view, Matrix4 orthoProjection);
+        public abstract void Draw(ref Matrix4 view,ref Matrix4 orthoProjection);
         
         public abstract void Step(double dt);
     }

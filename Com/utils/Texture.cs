@@ -53,8 +53,8 @@ namespace Com.Engine.Library
 
         public TextTexture(string text)
         {
-            List<Glyph> glyphs = new List<Glyph>();  // Liste für Speichern für Glypen
-            int totalWidth = 0;                      // Gesamte Breite des Textes
+            List<Glyph> glyphs = new List<Glyph>();  // Liste für Speichern für Glypen 
+            int totalTextWidth = 0;                      // Gesamte Breite des Textes
             int maxHeight = 0;                       // Höchster Buchstabe
 
             // 🔎 Über jeden Buchstaben iterieren
@@ -63,7 +63,7 @@ namespace Com.Engine.Library
                 if (GlyphHandler.Glyphs.TryGetValue(character, out var glyph)) // Glyph im Dictionary suchen
                 {
                     glyphs.Add(glyph);
-                    totalWidth += glyph.XAdvance;   // Breite zur Gesamtbreite addieren
+                    totalTextWidth += glyph.XAdvance;   // Breite zur Gesamtbreite addieren // TODO nochmal überlegen und in betracht ziehen das wir auch einen zeilen umbruch prüfen müssen
                     maxHeight = Math.Max(maxHeight, glyph.Height); // Höhe aktualisieren
                 }
             }
@@ -80,7 +80,7 @@ namespace Com.Engine.Library
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
 
             // 3. Leere Textur erstellen
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, totalWidth, maxHeight, 0, PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, totalTextWidth, maxHeight, 0, PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
 
             int currentX = 0;  // Startpunkt X
 

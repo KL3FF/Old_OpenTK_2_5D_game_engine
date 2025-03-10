@@ -3,6 +3,7 @@ namespace Com.Engine.Library
     public static class ShaderHandler
     {
         private static Dictionary<string, ShaderProgram> ShaderPrograms = new Dictionary<string, ShaderProgram>();
+        public static string lastShader = "";
 
         public static void Add(string key, string vertexShaderFilepath, string fragmentShaderFilepath)
         {
@@ -36,6 +37,14 @@ namespace Com.Engine.Library
 
             Get(key).Unbind();
         }
+        public static void UnbindLastShader()
+        {
+            if (lastShader != ""){
+                Unbind(lastShader);
+            }
+        }
+        
+
         public static void Delete(string key)
         {
             Get(key).Delete();

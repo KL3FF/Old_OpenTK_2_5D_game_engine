@@ -1,15 +1,15 @@
 namespace Com.Engine.Library
 {
-    public static class TextureHandler
+    public static class TextTextureHandler
     {
         private static Dictionary<string, Texture> textures = new Dictionary<string, Texture>();
-        public static string lastTexture = "";
 
-        public static void Add(string key, string filepath)
+
+        public static void Add(string key, string text)
         {
             if (!textures.ContainsKey(key))
             {
-                textures.Add(key, new ImgTexture(filepath));
+                textures.Add(key, new TextTexture(text));
             }
         }
 
@@ -43,13 +43,6 @@ namespace Com.Engine.Library
         }
 
 
-        public static void UnbindLastTexture()
-        {
-            if (lastTexture != ""){
-                Unbind(lastTexture);
-            }
-        }
-        
 
 
     }
